@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>示例：自定义组件的 v-model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <h1>示例：自定义组件的 v-model</h1>
+    <div id="app">
+        <div>
+            <p>以下哪个选项是正确的（ {{ answer }} ）</p>
+            <answer-list v-model="answer" :options="options" />
+        </div>
+    </div>
+    <p>
+        由于代码中使用了模板字符串语法，请使用支持此语法的浏览器浏览本页面。实现细节请查看源码或阅读文章：<a href="/posts/2019/05/19/define-v-model-in-vue.html">《Vue 中如何自定义 v-model》</a>。
+    </p>
+    <script>
+        // 定义 answer-list 组件
+        Vue.component('answer-list', {
+            // 关键：定义 v-model
+            // 对应的属性为：value
+            // 监听的事件为：change
+            model: {
+                prop: 'value',
+                event: 'change'
+            },
+            props: {
+                // 当前的答案
+                value: {
+                    type: String,
+                    default: null
+                },
+                // 答案列表
+                options: {
+                    type: Array,
+                    required: true
+                }
+            },
+            methods: {
+                // 当点击某个选项时调用
+                onClickOption: function (value) {
+                    // 关键：手动触发 change 事件
+                    this.$emit('change', value);
+                }
+            },
+            template: `
+                <div>
+                    <div
+                        v-for="option in options"
+                        :key="option.value"
+                        @click=onClickOption(option.value)
+                    >
+                        <code v-if="value === option.value">[v]</code>
+                        <code v-else>[ ]</code>
+                        <span>{{ option.value }}. {{ option.description }}</span>
+                    </div>
+                </div>
+            `
+        });
+
+        // 使用 answer-list 组件
+        var app = new Vue({
+            el: '#app',
+            data: {
+                answer: 'B',
+                options: [
+                    {
+                        value: 'A',
+                        description: '1 + 1 = 1'
+                    },
+                    {
+                        value: 'B',
+                        description: '1 + 1 = 2'
+                    },
+                    {
+                        value: 'C',
+                        description: '1 + 1 = 3'
+                    },
+                    {
+                        value: 'D',
+                        description: '1 + 1 = 4'
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

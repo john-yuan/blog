@@ -1,0 +1,10 @@
+{% assign relative_base_url = "" %}
+{% assign page_url_components = page.url | replace: "/", "/~" | split: "/" %}
+{% for item in page_url_components %}
+    {% assign relative_base_url = relative_base_url | append: "/.." %}
+{% endfor %}
+{% if page_url_components.size <= 2 %}
+    {% assign relative_base_url = "." %}
+{% else %}
+    {% assign relative_base_url = relative_base_url | remove_first: "/../../" %}
+{% endif %}

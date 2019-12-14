@@ -1,0 +1,153 @@
+.home-view {
+    .header {
+        position: relative;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #e0e0e0;
+        h1 {
+            margin: 0;
+            margin-top: 16px;
+            margin-bottom: 32px;
+            font-size: 48px;
+            text-align: left;
+            color: #ed1f24;
+            font-weight: normal;
+            letter-spacing: -1px;
+            height: 56px;
+            line-height: 56px;
+        }
+        .email {
+            position: absolute;
+            display: block;
+            top: 56px;
+            height: 32px;
+            line-height: 32px;
+            color: #828282;
+            display: block;
+            font-size: 16px;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+                color: #666;
+            }
+        }
+        .avatar {
+            display: block;
+            height: 88px;
+            width: 88px;
+            background: #eee;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
+
+    .posts {
+        ul, li {
+            display: block;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+        li {
+            padding: 30px 0;
+            border-bottom: 1px solid #e0e0e0;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        span {
+            display: block;
+            color: #828282;
+            font-style: italic;
+            font-size: 17px;
+            line-height: 135%;
+        }
+        h2 {
+            margin: 10px 0;
+            font-size: 21px;
+            font-weight: normal;
+            a,
+            a:visited,
+            a:focus {
+                text-decoration: none;
+                color: #000000;
+            }
+            a:hover {
+                text-decoration: none;
+                color: #ed1f24;
+            }
+            a:active {
+                text-decoration: none;
+                color: #000000;
+            }
+        }
+        p {
+            margin: 0;
+            line-height: 135%;
+            text-align: justify;
+        }
+    }
+}
+
+@media screen and (max-width: 640px)  {
+    .home-view {
+        .posts {
+            h2 {
+                margin: 10px 0;
+                font-size: 18px;
+                font-weight: normal;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 512px) {
+    .home-view {
+        .header {
+            padding-bottom: 38px;
+            h1 {
+                text-align: center;
+                margin-top: 115px;
+                margin-bottom: 0;
+                font-size: 32px;
+            }
+            .avatar {
+                width: 90px;
+                height: 90px;
+                position: absolute;
+                top: -100px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .email {
+                text-align: center;
+                top: 50px;
+                left: 0;
+                right: 0;
+                font-size: 15px;
+            }
+        }
+        .posts {
+            span {
+                font-size: 15px;
+            }
+            a:after {
+                content: ".";
+                color: transparent;
+                display: inline-block;
+                margin-left: .1em;
+                width: 1em;
+                background-image: url(../images/link.svg);
+                background-size: .75em;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        }
+    }
+}
