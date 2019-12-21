@@ -8,31 +8,27 @@
     <link rel="shortcut icon" href="{{ relative_base_url }}/{{ site.avatar }}">
     <link rel="stylesheet" href="{{ relative_base_url }}/assets/styles/main.css">
     <link rel="preload" href="{{ relative_base_url }}/assets/images/back-active.png" as="image">
-    <script> var RELATIVE_BASE_URL = '{{ relative_base_url }}/'; </script>
 </head>
 <body>
-    <div class="container">
-        <div class="post-view">
-            <a class="btn-back-to-home-page" href="{{ relative_base_url }}" title="Back to home page"></a>
-            <article>
-                <div class="meta">
-                    <div class="date">{{ page.date | date: "%Y / %m / %d " }}</div>
-                    <div class="author">
-                        {% if page.author != nil %}
-                            by {{ page.author }}
-                        {% else %}
-                            by {{ site.author }}
-                        {% endif %}
-                    </div>
+<div class="container">
+    <div class="post-view">
+        <a class="btn-back-to-home-page" href="{{ relative_base_url }}" title="Back to home page"></a>
+        <article>
+            <div class="meta">
+                <div class="date">{{ page.date | date: "%Y / %m / %d " }}</div>
+                <div class="author">
+                    {% if page.author != nil %}
+                        by {{ page.author }}
+                    {% else %}
+                        by {{ site.author }}
+                    {% endif %}
                 </div>
-                <h1 class="heading"><span class="heading-text">{{ page.title }}</span></h1>
-                {{ page.content }}
-            </article>
-        </div>
+            </div>
+            <h1 class="heading"><span class="heading-text">{{ page.title }}</span></h1>
+            {{ page.content }}
+        </article>
     </div>
-    <script src="{{ relative_base_url }}/assets/scripts/utils/hyperlink-parser.js"></script>
-    <script src="{{ relative_base_url }}/assets/scripts/utils/indexed-db-storage.js"></script>
-    <script src="{{ relative_base_url }}/assets/scripts/utils/zepto.js"></script>
-    <script src="{{ relative_base_url }}/assets/scripts/main.js"></script>
+</div>
+{% include scripts.html %}
 </body>
 </html>

@@ -8,33 +8,29 @@
     <link rel="shortcut icon" href="{{ relative_base_url }}/{{ site.avatar }}">
     <link rel="stylesheet" href="{{ relative_base_url }}/assets/styles/main.css">
     <link rel="preload" href="{{ relative_base_url }}/assets/images/back-active.png" as="image">
-    <script> var RELATIVE_BASE_URL = '{{ relative_base_url }}/'; </script>
 </head>
 <body>
-    <div class="container">
-        <div class="home-view">
-            <div class="header">
-                <h1>{{ site.title }}</h1>
-                <a class="email" href="mailto:{{ site.email }}" title="Send an email to me">{{ site.author }} &lt;{{ site.email }}&gt;</a>
-                <a
-                    class="avatar" href="{{ site.github }}"
-                    title="Follow me on Github"
-                    style="background-image: url('{{ relative_base_url }}/{{ site.avatar }}')"></a>
-            </div>
-            <div class="posts">
-                <ul>
-                    {% for post in site.posts %}<li>
-                        <span>{{ post.date | date: "%Y / %m / %d " }}</span>
-                        <h2><a href="{{ relative_base_url }}{{ post.url }}">{{ post.title }}</a></h2>
-                        <p>​{{ post.excerpt | strip_html }}</p>
-                    </li>{% endfor %}
-                </ul>
-            </div>
+<div class="container">
+    <div class="home-view">
+        <div class="header">
+            <h1>{{ site.title }}</h1>
+            <a class="email" href="mailto:{{ site.email }}" title="Send an email to me">{{ site.author }} &lt;{{ site.email }}&gt;</a>
+            <a
+                class="avatar" href="{{ site.github }}"
+                title="Follow me on Github"
+                style="background-image: url('{{ relative_base_url }}/{{ site.avatar }}')"></a>
+        </div>
+        <div class="posts">
+            <ul>
+                {% for post in site.posts %}<li>
+                    <span>{{ post.date | date: "%Y / %m / %d " }}</span>
+                    <h2><a href="{{ relative_base_url }}{{ post.url }}">{{ post.title }}</a></h2>
+                    <p>​{{ post.excerpt | strip_html }}</p>
+                </li>{% endfor %}
+            </ul>
         </div>
     </div>
-    <script src="{{ relative_base_url }}/assets/scripts/utils/hyperlink-parser.js"></script>
-    <script src="{{ relative_base_url }}/assets/scripts/utils/indexed-db-storage.js"></script>
-    <script src="{{ relative_base_url }}/assets/scripts/utils/zepto.js"></script>
-    <script src="{{ relative_base_url }}/assets/scripts/main.js"></script>
+</div>
+{% include scripts.html %}
 </body>
 </html>
