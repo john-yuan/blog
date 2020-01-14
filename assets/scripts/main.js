@@ -1,11 +1,11 @@
 define([
     'lib/zepto',
     'shared/getBaseUrl',
-    'shared/updateTragetOfExternalLink'
-], function ($, getBaseUrl, updateTragetOfExternalLink) {
+    'shared/updateTargetOfExternalLink'
+], function ($, getBaseUrl, updateTargetOfExternalLink) {
     require.config({
         baseUrl: getBaseUrl() + 'assets/scripts'
     });
 
-    updateTragetOfExternalLink($('.container'));
+    updateTargetOfExternalLink($('.container'));
 });
