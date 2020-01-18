@@ -1,0 +1,30 @@
+#!/bin/bash
+
+readonly __DIR__=$(cd $(dirname $0) && pwd)
+readonly POSTS="${__DIR__}/_posts"
+
+if [ "$1" == ""  ]
+then
+    echo "Please enter the file name"
+    echo "Usage: ${0} <filename>"
+    exit 1
+fi
+
+readonly DATE=$(date "+%Y-%m-%d")
+readonly FILENAME="${DATE}-${1}.md"
+
+cd $POSTS
+touch $FILENAME
+
+if [ "$(cat $FILENAME)" == "" ]
+then
+    echo "---" >> $FILENAME
+    echo "layout: post" >> $FILENAME
+    echo "title:" >> $FILENAME
+    echo "category:" >> $FILENAME
+    echo "tags:" >> $FILENAME
+    echo "---" >> $FILENAME
+fi
+
+vim $FILENAME
+
