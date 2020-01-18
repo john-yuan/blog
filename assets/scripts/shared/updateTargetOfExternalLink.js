@@ -10,7 +10,7 @@ define([
      *
      * @param {Zepto} $container The container node
      */
-    return function updateTragetOfExternalLink($container) {
+    return function updateTargetOfExternalLink($container) {
         $container.find('a').each(function () {
             var $this = $(this);
             var href = $this.attr('href');
