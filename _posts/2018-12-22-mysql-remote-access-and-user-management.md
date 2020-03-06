@@ -43,7 +43,7 @@ SET PASSWORD FOR 'root'@'%' = PASSWORD('newpassword');
 > 以上修改密码的 SQL 在 8.0.18 版本中会报错，请使用以下 SQL 代替：
 >
 > ```sql
-> ALTER user 'root'@'%' IDENTIFIED BY 'newpassword';
+> ALTER USER 'root'@'%' IDENTIFIED BY 'newpassword';
 > ```
 >
 > 如果提示密码不满足系统的验证规则，可以使用以下命令查看密码验证规则：
