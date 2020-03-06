@@ -27,7 +27,7 @@ GRANT ALL ON *.* TO 'root'@'%';
 执行以上 SQL 后 root 用户就可以从别的主机登录了。这时执行以下命令，可以查看我们刚刚创建的 root 用户。
 
 ```sql
-SELECT user, host, password FROM mysql.user;
+SELECT user, host FROM mysql.user;
 ```
 
 用户的身份由两部分组成，一是**用户名**，二是**允许登录的主机地址**。也就是说 `'root'@'127.0.0.1'` 和 `'root'@'192.168.56.1'` 是两个不同的用户，他们有着互不相关的访问权限。
@@ -37,6 +37,26 @@ SELECT user, host, password FROM mysql.user;
 ```sql
 SET PASSWORD FOR 'root'@'%' = PASSWORD('newpassword');
 ```
+
+> **2020 年 3 月 6 日更新：**
+>
+> 以上修改密码的 SQL 在 8.0.18 版本中会报错，请使用以下 SQL 代替：
+>
+> ```sql
+> ALTER user 'root'@'%' IDENTIFIED BY 'newpassword';
+> ```
+>
+> 如果提示密码不满足系统的验证规则，可以使用以下命令查看密码验证规则：
+>
+> ```sql
+> SHOW VARIABLES LIKE 'validate_password%';
+> ```
+>
+> 如果需要修改密码验证规则，可以使用类似以下的语句进行修改：
+>
+> ```sql
+> SET GLOBAL validate_password.check_user_name = OFF;
+> ```
 
 也许你觉得刚刚我们给 `'root'@'%'` 用户分配的权限太大了，那么你可以收回该用户的权限，并进行重新分配，比如：
 
