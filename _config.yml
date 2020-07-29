@@ -2,7 +2,7 @@ title: JOHN'S BLOG
 author: John Yuan
 email: John.YCQ@outlook.com
 github: https://github.com/john-yuan
-avatar: assets/images/avatar.jpeg
+avatar: assets/images/avatar.jpg
 permalink: /posts/:year/:month/:day/:title.html
 excerpt_separator: <!--more-->
 markdown: kramdown
