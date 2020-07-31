@@ -38,10 +38,12 @@ yum install certbot
 
 ```bash
 certbot certonly --webroot \
-    -w /var/www/chunqiang.io \
+    -w /var/www/example.com \
     -d example.com \
     -d www.example.com
 ```
+
+> 请注意我们网站根目录为：`/var/www/example.com`
 
 完成上述操作后，会在 `/etc/letsencrypt/live/example.com` 目录下生成 https 证书。更新 nginx 配置即可使用该 https 证书，配置如下：
 
@@ -83,7 +85,7 @@ crontab -e
 
 然后在打开的 vim 的编辑器中添加以下指令即可：
 
-``` 
+```
 0 1 * * * certbot renew > /dev/null 2>&1 &
 ```
 
