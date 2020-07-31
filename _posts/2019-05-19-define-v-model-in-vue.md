@@ -107,6 +107,6 @@ tags: vue v-model
 </script>
 ```
 
-你可以[点击此处查看运行效果][example]，本文完。
+你可以[点击此处查看运行效果][demo]，本文完。
 
-[example]: /public/examples/vue/how-to-define-v-model.html
+[demo]: /shared/demo/vue-define-v-model.html

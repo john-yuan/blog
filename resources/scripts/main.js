@@ -4,7 +4,7 @@ define([
     'shared/updateTargetOfExternalLink'
 ], function ($, getBaseUrl, updateTargetOfExternalLink) {
     require.config({
-        baseUrl: getBaseUrl() + 'assets/scripts'
+        baseUrl: getBaseUrl() + 'resources/scripts'
     });
 
     updateTargetOfExternalLink($('.container'));
