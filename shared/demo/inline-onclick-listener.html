@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inline event listener</title>
+</head>
+<body>
+    <div><pre id="code-1"></pre></div>
+    <button id="btn-1" onclick="alert(this)">alert(this)</button>
+    <hr>
+
+    <div><pre id="code-2"></pre></div>
+    <button id="btn-2" onclick="alert(event)">alert(event)</button>
+    <hr>
+
+    <div><pre id="code-3"></pre></div>
+    <button id="btn-3" onclick="(function() { alert(this) })()">(function() { alert(this) })()</button>
+
+    <script>
+        function printCode(codeNumber) {
+            var btn = document.getElementById('btn-' + codeNumber);
+            var code = document.getElementById('code-' + codeNumber);
+            var fn = btn.onclick;
+            var text = fn ? fn.toString() : '';
+
+            // 添加缩进
+            if (text) {
+                var lines = text.split(/[\r\n]+/g);
+                var i = 1;
+                var max = lines.length - 1;
+                for ( ; i < max; ++i) {
+                    lines[i] = '  ' + lines[i];
+                }
+                text = lines.join('\n');
+            }
+
+            code.innerText = '// HTML: ' + btn.outerHTML + '\n'
+                + '// The result onclick is (button.onclick.toString()):\n'
+                + text;
+        }
+        printCode(1);
+        printCode(2);
+        printCode(3);
+    </script>
+</body>
+</html>
