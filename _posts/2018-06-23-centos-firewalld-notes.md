@@ -19,7 +19,7 @@ firewalld 是 CentOS 7 默认的防火墙，使用此工具来管理网络端口
 
 ```bash
 # 开启 http 服务，该命令会打开 80 端口
-firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --permanent --add-service=http
 # 重启 firewalld 以使配置生效
 firewall-cmd --reload
 ```
@@ -37,7 +37,7 @@ firewall-cmd --get-services
 
 ```bash
 # 示例: 移除 http 服务（关闭80端口）
-firewall-cmd --permanent --zone=public --remove-service=http
+firewall-cmd --permanent --remove-service=http
 # 重启 firewalld 以使配置生效
 firewall-cmd --reload
 ```
@@ -48,14 +48,34 @@ firewall-cmd --reload
 
 ```bash
 # 开放 8080 端口
-firewall-cmd --permanent --zone=public --add-port=8080/tcp
+firewall-cmd --permanent --add-port=8080/tcp
 # 重启 firewalld 以使配置生效
 firewall-cmd --reload
 
 # 关闭 8080 端口
-firewall-cmd --permanent --zone=public --remove-port=8080/tcp
+firewall-cmd --permanent --remove-port=8080/tcp
 # 重启 firewalld 以使配置生效
 firewall-cmd --reload
+```
+
+## zone 管理
+
+添加或移除服务或端口时，如果没有指定 zone，默认将操作当前默认的 zone，查看当前默认的 zone 可以使用以下命令：
+
+```bash
+firewall-cmd --get-default-zone
+```
+
+查看所有 zone：
+
+```bash
+firewall-cmd --get-zones
+```
+
+设置默认 zone：
+
+```bash
+firewall-cmd --get-default-zone [zone]
 ```
 
 ## 查看当前开放的端口或服务
@@ -63,3 +83,7 @@ firewall-cmd --reload
 ```bash
 firewall-cmd --list-all
 ```
+
+## 其他
+
+* 进入 `/usr/lib/firewalld` 目录可以查看 firewalld 内置的的 services，zone 等信息。
