@@ -102,7 +102,7 @@ docker: Error response from daemon: cgroups: cgroup mountpoint does not exist: u
 ERRO[0006] error waiting for container: context canceled
 ```
 
-可尝试允许以下命令解决：
+可尝试运行以下命令解决：
 
 ```bash
 mkdir /sys/fs/cgroup/systemd
