@@ -36,7 +36,7 @@ cd nginx-1.14.0
 # 1) 将安装目录指定为 /opt/nginx
 # 2) 编译 https 模块
 # 备注：如果有错误提示某些软件没有则使用 yum 安装后重试直至成功
-sudo ./configure --prefix=/opt/nginx --with-http_ssl_module
+sudo ./configure --prefix=/opt/nginx --with-http_ssl_module --with-stream --with-stream_ssl_module
 
 # 执行 make 命令进行编译
 sudo make
