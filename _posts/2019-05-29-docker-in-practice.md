@@ -90,6 +90,25 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
+如果出现以下错误：
+
+```
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+0e03bdcc26d7: Pull complete
+Digest: sha256:4cf9c47f86df71d48364001ede3a4fcd85ae80ce02ebad74156906caff5378bc
+Status: Downloaded newer image for hello-world:latest
+docker: Error response from daemon: cgroups: cgroup mountpoint does not exist: unknown.
+ERRO[0006] error waiting for container: context canceled
+```
+
+可尝试允许以下命令解决：
+
+```bash
+mkdir /sys/fs/cgroup/systemd
+mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+```
+
 ## 五、示例：创建应用镜像
 
 ### 应用说明
