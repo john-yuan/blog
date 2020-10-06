@@ -2,6 +2,7 @@ title: JOHN'S BLOG
 author: John Yuan
 email: John.YCQ@outlook.com
 github: https://github.com/john-yuan
+lang: zh-CN
 avatar: resources/images/avatar.jpg
 permalink: /blog/:title.html
 excerpt_separator: <!--more-->
