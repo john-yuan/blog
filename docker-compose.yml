@@ -3,6 +3,6 @@ version: '3'
 services:
   jekyll:
     image: jekyll/jekyll:3.8
-    command: jekyll build
+    command: jekyll build --future
     volumes:
       - .:/srv/jekyll
