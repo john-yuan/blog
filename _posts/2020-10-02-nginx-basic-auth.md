@@ -5,17 +5,17 @@ category: nginx
 tags: nginx basic auth
 ---
 
-Nginx 添加 Basic Auth 验证。
+本文介绍如何使用 htpasswd 创建密码文件，并将其配置到 Nginx 服务器，以开启 Basic Auth 验证。
 
 <!--more-->
 
-## 创建密码文件
+创建密码文件：
 
 ```bash
 htpasswd -c /usr/local/nginx/conf/.htpasswd [user]
 ```
 
-## 更新 nginx 配置
+更新 nginx 配置：
 
 ```
 server {
@@ -25,3 +25,5 @@ server {
     # ...
 }
 ```
+
+本文完。
