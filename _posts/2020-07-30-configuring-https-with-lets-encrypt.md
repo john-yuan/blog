@@ -91,5 +91,30 @@ crontab -e
 
 以上指令的意思是每天早上 01:00 的时候执行 `certbot renew` 更新 https 证书。
 
+## 三、配置 http 跳转至 https
+
+更新配置信息，将 80 端口单独配置如下：
+
+```
+server {
+    listen 80;
+    server_name example.com www.example.com;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    # 保留此配置以供 certbot 自动更新时使用
+    location /.well-known/acme-challenge/ {
+        root /var/www/example.com;
+    }
+}
+```
+
+变量意义请参考：
+
+* [$host](http://nginx.org/en/docs/http/ngx_http_core_module.html#var_host)
+* [$request_uri](http://nginx.org/en/docs/http/ngx_http_core_module.html#var_request_uri)
+
 本文完。
 
