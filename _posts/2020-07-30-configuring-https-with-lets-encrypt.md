@@ -99,6 +99,7 @@ crontab -e
 server {
     listen 80;
     server_name example.com www.example.com;
+    root /var/www/example.com;
 
     location / {
         return 301 https://$host$request_uri;
