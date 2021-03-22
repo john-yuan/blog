@@ -164,6 +164,12 @@ server {
     location / {
         # 将请求转发至 http://127.0.0.1:8080
         proxy_pass http://127.0.0.1:8080;
+        # 转发原始请求相关信息
+        proxy_set_header  Host $host;
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header  X-Forwarded-Proto https;
+        proxy_set_header  X-Forwarded-For $remote_addr;
+        proxy_set_header  X-Forwarded-Host $remote_addr;
     }
 }
 ```
