@@ -5,11 +5,11 @@ category: https
 tags: https
 ---
 
-本文主要记录如何为网站添加 [Let's Encrypt](https://letsencrypt.org/) https 证书、配置 nginx 从 http 自动跳转至 https 和设置定时任务自动更新 https 证书。
+本文主要记录如何为网站添加 [Let's Encrypt](https://letsencrypt.org/) https 证书、设置定时任务自动更新 https 证书和配置 nginx 从 http 自动跳转至 https。
 
 <!--more-->
 
-## 一、生成证书
+## 一、生成证书并配置
 
 本文以以下域名进行演示说明：
 
@@ -49,7 +49,6 @@ certbot certonly --webroot \
 
 ```
 server {
-    listen 80;
     listen 443 ssl;
     server_name example.com www.example.com;
 
@@ -79,17 +78,19 @@ certbot renew
 我们可以通过 crontab 设置定时任务，每天检查更新，以确保 https 证书始终有效。
 
 ```bash
-# 首先使用以下命令编辑 crontab
+# 首先使用以下命令编辑定时任务
 crontab -e
 ```
 
-然后在打开的 vim 的编辑器中添加以下指令即可：
+然后在打开的编辑器中添加以下指令即可：
 
 ```
-0 1 * * * certbot renew > /dev/null 2>&1 &
+0 1 * * * certbot renew --post-hook "/usr/local/nginx/sbin/nginx -s reload" >/dev/null 2>&1
 ```
 
-以上指令的意思是每天早上 01:00 的时候执行 `certbot renew` 更新 https 证书。
+> 如果打开的是 nano 编辑器，保存的操作为 `Ctrl-X` 然后输入 `Y` 或 `N` 并回车。
+
+以上指令的意思是每天早上 01:00 的时候执行 `certbot renew` 更新 https 证书，并在证书更新后重启 nginx 服务器，如果证书没有更新，则不会重启 nginx 服务器。
 
 ## 三、配置 http 跳转至 https
 
