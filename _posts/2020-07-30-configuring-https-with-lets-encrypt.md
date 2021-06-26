@@ -1,11 +1,11 @@
 ---
 layout: post
-title: 为博客添加 Let's Encrypt Https 证书
+title: 为博客添加 Let's Encrypt https 证书
 category: https
 tags: https
 ---
 
-由于近期 Github Pages 不稳定，于是将博客迁移到了云服务器（CentOS 7）上，并通过 Webhooks 进行自动部署。本文主要记录如何为博客添加 [Let's Encrypt](https://letsencrypt.org/) Https 证书并设置定时任务以实现证书的自动更新。
+本文主要记录如何为网站添加 [Let's Encrypt](https://letsencrypt.org/) https 证书、配置 nginx 从 http 自动跳转至 https 和设置定时任务自动更新 https 证书。
 
 <!--more-->
 
@@ -43,7 +43,7 @@ certbot certonly --webroot \
     -d www.example.com
 ```
 
-> 请注意我们网站根目录为：`/var/www/example.com`
+> 请注意我们网站根目录为：`/var/www/example.com`，请确保该目录存在。
 
 完成上述操作后，会在 `/etc/letsencrypt/live/example.com` 目录下生成 https 证书。更新 nginx 配置即可使用该 https 证书，配置如下：
 
@@ -118,4 +118,3 @@ server {
 * [$request_uri](http://nginx.org/en/docs/http/ngx_http_core_module.html#var_request_uri)
 
 本文完。
-
