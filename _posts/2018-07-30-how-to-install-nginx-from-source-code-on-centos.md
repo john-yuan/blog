@@ -38,8 +38,12 @@ cd nginx-1.14.0
 # 备注：如果有错误提示某些软件没有则使用 yum 安装后重试直至成功
 sudo ./configure --prefix=/opt/nginx --with-http_ssl_module --with-stream --with-stream_ssl_module
 
+# 使用以下命令会默认安装到 /usr/local/nginx
+# sudo ./configure --with-http_ssl_module --with-stream --with-stream_ssl_module
+
 # 执行 make 命令进行编译
 sudo make
+
 # 编译完成后执行 make install 进行安装
 sudo make install
 ```
