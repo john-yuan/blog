@@ -3,6 +3,7 @@ layout: post
 title: Git 用户名和命令别名设置
 category: git
 tags: git
+snippet: true
 ---
 
 Git 用户名和命令别名设置，以备不时之需。
