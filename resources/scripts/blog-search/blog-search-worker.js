@@ -1,15 +1,14 @@
-importScripts('http-client.js');
-importScripts('parse-xml.js');
-importScripts('blog-search-db.js');
+importScripts('../lib/HttpClient.js');
+importScripts('../shared/parseXML.js');
 
 var WORKER_READY = 'WORKER_READY';
 var SYNC_SETTINGS = 'SYNC_SETTINGS';
+var SYNC_SETTINGS_DONE = 'SYNC_SETTINGS_DONE';
+var SEARCH = 'SEARCH';
+var SEARCH_DONE = 'SEARCH_DONE';
 var client = new HttpClient();
-var db = new BlogSearchDb('blog_search');
 var blogSearchIndexUrl = null;
 var fetchPostsPromise = null;
-var postsFromServer = [];
-var postsFromDb = [];
 
 self.addEventListener('message', function (event) {
     var data = event.data || {};
@@ -18,46 +17,137 @@ self.addEventListener('message', function (event) {
     switch (data.action) {
         case SYNC_SETTINGS:
             return onSyncSettings(payload);
+        case SEARCH:
+            return onSearch(payload);
     }
 }, false);
 
-function onSyncSettings(settings) {
-    blogSearchIndexUrl = settings.blogSearchIndexUrl;
-    posts();
+function onSyncSettings(payload) {
+    blogSearchIndexUrl = payload.blogSearchIndexUrl;
+
+    postMessage({
+        action: SYNC_SETTINGS_DONE
+    });
+}
+
+function onSearch(payload) {
+    var keyword = ''
+
+    if (typeof payload.keyword === 'string') {
+        keyword = payload.keyword.trim().toLowerCase();
+    }
+
+    posts().then(function (posts) {
+        var results = [];
+
+        each(posts, function(post) {
+            var result = match(post, keyword);
+
+            if (result.matchScore) {
+                results.push(result);
+            }
+        })
+
+        results.sort(function (a, b) {
+            return b.matchScore - a.matchScore;
+        });
+
+        postMessage({
+            action: SEARCH_DONE,
+            payload: {
+                searchId: payload.searchId,
+                keyword: payload.keyword,
+                results: results
+            }
+        })
+    })
+}
+
+function match(post, keyword) {
+    var tagMatchScore = 0;
+    var titleMatchScore = 0;
+    var categoryMatchScore = 0;
+    var contentMatchScore = 0;
+
+    var TAG_WEIGHT = 1000;
+    var TITLE_WEIGHT = 100;
+    var CATEGORY_WEIGHT = 10;
+    var CONTENT_WEIGHT = 1;
+
+    each(post.tags, function (text) {
+        tagMatchScore += countKeyword(text, keyword, true) * TAG_WEIGHT;
+    });
+
+    titleMatchScore += countKeyword(post.title, keyword) * TITLE_WEIGHT;
+
+    each(post.categories, function (text) {
+        categoryMatchScore += countKeyword(text, keyword, true) * CATEGORY_WEIGHT;
+    });
+
+    contentMatchScore += countKeyword(post.content, keyword) * CONTENT_WEIGHT;
+
+    var matchScore = tagMatchScore + titleMatchScore + categoryMatchScore + contentMatchScore;
+
+    return {
+        matchScore: matchScore,
+        categoryMatchScore: categoryMatchScore,
+        contentMatchScore: contentMatchScore,
+        tagMatchScore: tagMatchScore,
+        titleMatchScore: titleMatchScore,
+        post: post
+    };
+}
+
+function countKeyword(text, keyword, exact) {
+    if (typeof text !== 'string') return 0;
+
+    var str = text.trim().toLowerCase();
+    var fromIndex = 0;
+    var count = 0;
+    var keywordLength = keyword.length;
+    var textLength = str.length;
+
+    if (exact) {
+        return str === keyword ? 1 : 0;
+    }
+
+    while (true) {
+        var index = str.indexOf(keyword, fromIndex);
+
+        if (index === -1) {
+            break;
+        }
+
+        count += 1;
+        fromIndex = index + keywordLength;
+
+        if (fromIndex >= textLength) {
+            break;
+        }
+    }
+
+    return count;
+}
+
+function each(array, callback) {
+    if (array) {
+        var i = 0;
+        var length = array.length;
+
+        for (i = 0; i < length; i += 1) {
+            callback(array[i], i, array);
+        }
+    }
 }
 
 function posts() {
-    return new Promise(function (resolve) {
-        if (postsFromServer.length) {
-            resolve(postsFromServer);
-        } else if (postsFromDb.length) {
-            resolve(postsFromDb);
-        } else {
-            if (!fetchPostsPromise) {
-                fetchPostsPromise = fetchPosts().then(function (posts) {
-                    return posts;
-                }).catch(function () {
-                    return [];
-                }).then(function (posts) {
-                    postsFromServer = posts;
-                    db.updatePosts(posts);
-                });
-            }
+    if (fetchPostsPromise === null) {
+        fetchPostsPromise = fetchPosts().catch(function () {
+            return [];
+        })
+    }
 
-            db.getPosts().then(function (posts) {
-                return posts;
-            }).catch(function () {
-                return [];
-            }).then(function (posts) {
-                postsFromDb = posts;
-                if (posts.length) {
-                    resolve(posts);
-                } else {
-                    resolve(fetchPostsPromise);
-                }
-            });
-        }
-    });
+    return fetchPostsPromise;
 }
 
 function fetchPosts() {
@@ -133,7 +223,7 @@ function parsePostNode(node) {
 }
 
 function trim(str) {
-    return str.trim();
+    return str ? str.trim() : '';
 }
 
 function parsePostTitleNode(node) {

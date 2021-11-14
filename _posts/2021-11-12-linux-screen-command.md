@@ -6,6 +6,10 @@ tags: screen
 snippet: true
 ---
 
+Screen 命令操作备忘。
+
+<!--more-->
+
 打开一个新的 screen 并命名为 MyScreen，后面我们要通过这个名字重新找到这个 screen。
 
 ```bash

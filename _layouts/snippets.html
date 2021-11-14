@@ -23,16 +23,16 @@
         <nav class="site-nav">
             <ul>
                 <li>
-                    <a class="active" href="{{ relative_base_url }}/">Posts</a>
+                    <a href="{{ relative_base_url }}/">Posts</a>
                 </li>
                 <li>
-                    <a href="{{ relative_base_url }}/snippets.html">Snippets</a>
+                    <a class="active" href="{{ relative_base_url }}/snippets.html">Snippets</a>
                 </li>
             </ul>
         </nav>
         <div class="posts">
             <ul class="post-list">
-                {% for post in site.posts %}{% if post.snippet != true %}<li class="post-list-item post">
+                {% for post in site.posts %}{% if post.snippet == true %}<li class="post-list-item post">
                     <span class="post-date">{{ post.date | date: "%Y / %m / %d " }}</span>
                     <h2 class="post-title"><a href="{{ relative_base_url }}{{ post.url }}">{{ post.title }}</a></h2>
                     <p class="post-excerpt">

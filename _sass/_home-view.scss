@@ -1,93 +1,145 @@
 .home-view {
     .header {
         position: relative;
-        padding-bottom: 30px;
-        border-bottom: 1px solid #e0e0e0;
-        h1 {
-            margin: 0;
-            margin-top: 16px;
-            margin-bottom: 32px;
-            font-size: 48px;
-            text-align: left;
-            color: #ed1f24;
-            font-weight: normal;
-            letter-spacing: -1px;
-            height: 56px;
-            line-height: 56px;
-        }
-        .email {
-            position: absolute;
-            display: block;
-            top: 56px;
-            height: 32px;
-            line-height: 32px;
-            color: #828282;
-            display: block;
-            font-size: 16px;
-            text-decoration: none;
-            &:hover {
-                text-decoration: underline;
-                color: #666;
-            }
-        }
-        .avatar {
-            display: block;
-            height: 88px;
-            width: 88px;
-            background: #eee;
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            border-radius: 50%;
-            cursor: pointer;
+        padding-bottom: 20px;
+    }
+
+    .site-title {
+        margin: 0;
+        margin-top: 16px;
+        margin-bottom: 32px;
+        font-size: 48px;
+        text-align: left;
+        color: #ed1f24;
+        font-weight: normal;
+        letter-spacing: -1px;
+        height: 56px;
+        line-height: 56px;
+    }
+
+    .site-email {
+        position: absolute;
+        display: block;
+        top: 56px;
+        height: 32px;
+        line-height: 32px;
+        color: #828282;
+        display: block;
+        font-size: 16px;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+            color: #666;
         }
     }
 
-    .posts {
+    .site-avatar {
+        display: block;
+        height: 88px;
+        width: 88px;
+        background: #eee;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .site-nav {
+        border-bottom: 1px solid #e0e0e0;
+        overflow: hidden;
+
         ul, li {
             display: block;
-            margin: 0;
             padding: 0;
-            list-style: none;
-            overflow: hidden;
+            margin: 0;
+            list-style-type: none;
         }
+
         li {
-            padding: 30px 0;
-            border-bottom: 1px solid #e0e0e0;
+            float: left;
+            border: 1px solid #e0e0e0;
+            border-bottom: 0;
+            border-right: 0;
+
             &:last-child {
-                border-bottom: none;
+                border-right: 1px solid #e0e0e0;
             }
         }
-        span {
+
+        a {
+            display: block;
+            padding: 0.5em 0.75em;
+            font-size: 16px;
+            color: #666;
+            text-decoration: none;
+
+            &:hover {
+                color: #ed1f24;
+            }
+
+            &.active {
+                color: #ed1f24;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .post-list,
+    .post-list-item {
+        display: block;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+    }
+
+    .post-list-item {
+        padding: 30px 0;
+        border-bottom: 1px solid #e0e0e0;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .post {
+        .post-date {
             display: block;
             color: #828282;
             font-style: italic;
             font-size: 17px;
             line-height: 135%;
         }
-        h2 {
+
+        .post-title {
             margin: 10px 0;
             font-size: 21px;
             font-weight: normal;
+
             a,
             a:visited,
             a:focus {
                 text-decoration: none;
                 color: #000000;
             }
+
             a:hover {
                 text-decoration: none;
                 color: #ed1f24;
             }
+
             a:active {
                 text-decoration: none;
                 color: #000000;
             }
         }
-        p {
+
+        .post-excerpt {
             margin: 0;
             line-height: 135%;
             text-align: justify;
@@ -97,8 +149,8 @@
 
 @media screen and (max-width: 640px)  {
     .home-view {
-        .posts {
-            h2 {
+        .post {
+            .post-title {
                 margin: 10px 0;
                 font-size: 18px;
                 font-weight: normal;
@@ -111,33 +163,38 @@
     .home-view {
         .header {
             padding-bottom: 38px;
-            h1 {
-                text-align: center;
-                margin-top: 115px;
-                margin-bottom: 0;
-                font-size: 32px;
-            }
-            .avatar {
-                width: 90px;
-                height: 90px;
-                position: absolute;
-                top: -100px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            .email {
-                text-align: center;
-                top: 50px;
-                left: 0;
-                right: 0;
-                font-size: 15px;
-            }
         }
-        .posts {
-            span {
+
+        .site-title {
+            text-align: center;
+            margin-top: 115px;
+            margin-bottom: 0;
+            font-size: 32px;
+        }
+
+        .site-avatar {
+            width: 90px;
+            height: 90px;
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .site-email {
+            text-align: center;
+            top: 50px;
+            left: 0;
+            right: 0;
+            font-size: 15px;
+        }
+
+        .post {
+            .post-date {
                 font-size: 15px;
             }
-            h2 {
+
+            .post-title {
                 a:after {
                     content: ".";
                     color: transparent;
@@ -149,6 +206,7 @@
                     background-position: center;
                     background-repeat: no-repeat;
                 }
+
                 a:hover {
                     color: #000000;
                 }

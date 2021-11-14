@@ -6,3 +6,10 @@
     };
 </script>
 <script src="{{ relative_base_url }}/resources/scripts/lib/require.js" data-main="main"></script>
+<script src="{{ relative_base_url }}/resources/scripts/blog-search/blog-search.js"></script>
+<script>
+    BlogSearch.init({
+        blogSearchIndexUrl: '/search.xml',
+        workerBaseUrl: RELATIVE_BASE_URL + 'resources/scripts/blog-search/',
+    })
+</script>

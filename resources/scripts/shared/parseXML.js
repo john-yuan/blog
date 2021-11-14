@@ -1,4 +1,10 @@
-define(function () {
+(function (factory, root) {
+    if (typeof define === 'function' && define.amd) {
+        define(factory)
+    } else {
+        root.parseXML = factory()
+    }
+})(function () {
     return function parseXML(xml) {
         var source = typeof xml === 'string' ? xml : ('' + xml);
         var ch = '';
@@ -237,4 +243,4 @@ define(function () {
 
         return rootNode;
     }
-});
+}, this);

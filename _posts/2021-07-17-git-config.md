@@ -6,7 +6,7 @@ tags: git
 snippet: true
 ---
 
-Git 用户名和命令别名设置，以备不时之需。
+我的 git 用户名和命令简写配置。
 
 <!--more-->
 
