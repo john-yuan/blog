@@ -35,6 +35,12 @@ body {
     }
 }
 
+@media screen and (min-width: 1280px) {
+    .container {
+        width: 800px;
+    }
+}
+
 @media screen and (max-width: 790px) {
     body {
         padding: 0;
