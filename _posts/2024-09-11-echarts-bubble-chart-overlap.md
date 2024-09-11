@@ -9,7 +9,7 @@ tags: echarts
 
 <!--more-->
 
-实现效果如下（具体实现<a href="/shared/demo/echarts-bubble-chart-overlap.html" target="_blank">请打开此页面</a>并查看源代码）：
+实现效果如下（具体实现<a href="/shared/demo/echarts-bubble-chart-overlap.html" target="_blank">请打开此页面</a>并查看源代码，或<a href="https://github.com/john-yuan/blog/blob/master/shared/demo/echarts-bubble-chart-overlap.html" target="_blank">点击此处前往 Github 查看源代码</a>）：
 
 <iframe
     class="iframe"
