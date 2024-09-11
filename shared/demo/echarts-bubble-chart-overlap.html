@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echarts 气泡图重叠区域 tooltip</title>
+    <style>html, body { padding: 0; margin: 0; }</style>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div style="padding: 12px;">
+        <div id="main" style="width: 550px;height:360px; margin: 0 auto"></div>
+    </div>
+    <script type="text/javascript">
+        var chart = echarts.init(document.getElementById('main'));
+
+        var data = [
+            [10, 10, 15, 'A'], // [x, y, r, label]
+            [10, 12, 18, 'B'],
+            [11, 11, 17, 'C'],
+            [20, 13, 18, 'D'],
+            [20, 14, 32, 'E'],
+            [25, 20, 15, 'F'],
+            [25, 18, 18, 'G'],
+            [30, 15, 12, 'H'],
+        ]
+
+        var COLOR_NORMAL = 'rgba(0, 80, 240, 0.8)'  // 普通圆圈颜色
+        var COLOR_ACTIVE = 'rgba(240, 0, 0, 0.8)'   // 选中圆圈颜色
+        var ACTIVE_SIZE_DELTA = 1.2                 // 选中圆圈放大系数
+
+        var mState = {
+            // 记录每个圆圈的位置，index 与 data 的 index 一一对应
+            positions: [],
+            // 记录鼠标 hover 下的所有数据下标
+            hoveredIndexes: [],
+            hoveredIndexMap: {}
+        }
+
+        function createTooltip(indexes) {
+            var div = document.createElement('div')
+            indexes.forEach(function (index) {
+                var val = data[index]
+                var row = document.createElement('div')
+                var label = val[3]
+                var coord = '(' + val.slice(0, 3).join(', ') + ')'
+                row.appendChild(document.createTextNode(label + ' ' + coord))
+                div.appendChild(row)
+            })
+            return div
+        }
+
+        chart.setOption({
+            dataZoom: {},
+            tooltip: {
+                trigger: 'item',
+                formatter: function () {
+                    return mState.hoveredIndexes.length
+                        ? createTooltip(mState.hoveredIndexes)
+                        : null
+                }
+            },
+            xAxis: { type: 'value' },
+            yAxis: { type: 'value' },
+            series: [
+                {
+                    type: 'scatter',
+                    emphasis: { disabled: true },
+                    symbolSize: function (val) {
+                        return val[2] * 2
+                    },
+                    label: {
+                        show: true,
+                        formatter: function (params) {
+                            return params.data[3]
+                        }
+                    },
+                    itemStyle: {
+                        color: COLOR_NORMAL,
+                    },
+                    data: data
+                }
+            ]
+        })
+
+        // 收集当前数据的位置信息
+        function updatePositions() {
+            var positions = []
+
+            data.forEach(function (item) {
+                var pos = chart.convertToPixel({ seriesIndex: 0 }, [item[0], item[1]])
+
+                positions.push({
+                    x: pos[0],
+                    y: pos[1],
+                    r: item[2]
+                })
+            })
+
+            mState.positions = positions
+        }
+
+        // 缩放时更新位置信息
+        function onDataZoom() {
+            updatePositions()
+        }
+
+        // 鼠标移出时恢复默认的颜色和大小
+        function onMouseOut() {
+            chart.setOption({
+                series: [
+                    {
+                        itemStyle: { color: COLOR_NORMAL },
+                        symbolSize: function (val) {
+                            return val[2] * 2
+                        }
+                    }
+                ]
+            })
+        }
+
+        // 鼠标移入时高亮并放大选中的气泡
+        function onMouseMove(e) {
+            if (!e.event) {
+                return
+            }
+
+            var offsetX = e.event.offsetX
+            var offsetY = e.event.offsetY
+            var lastHoveredMap = mState.hoveredIndexMap
+
+            mState.hoveredIndexes = []
+            mState.hoveredIndexMap = {}
+
+            mState.positions.forEach(function (pos, index) {
+                var xSquare = Math.pow(pos.x - offsetX, 2)
+                var ySquare = Math.pow(pos.y - offsetY, 2)
+                var distance = Math.sqrt(xSquare + ySquare)
+                var radius = pos.r
+
+                if (lastHoveredMap[index]) {
+                    radius = pos.r * ACTIVE_SIZE_DELTA
+                }
+
+                if (distance <= radius) {
+                    mState.hoveredIndexes.push(index)
+                    mState.hoveredIndexMap[index] = true
+                }
+            })
+
+            chart.setOption({
+                animation: true,
+                animationDurationUpdate: 200,
+                series: [
+                    {
+                        symbolSize: function (value, event) {
+                            return mState.hoveredIndexMap[event.dataIndex]
+                                ? value[2] * 2 * ACTIVE_SIZE_DELTA
+                                : value[2] * 2
+                        },
+                        itemStyle: {
+                            color: function (params) {
+                                return mState.hoveredIndexMap[params.dataIndex]
+                                    ? COLOR_ACTIVE
+                                    : COLOR_NORMAL
+                            }
+                        }
+                    }
+                ]
+            })
+        }
+
+        chart.on('datazoom', onDataZoom)
+        chart.on('mouseout', onMouseOut)
+        chart.on('mousemove', onMouseMove)
+
+        updatePositions()
+    </script>
+</body>
+</html>
