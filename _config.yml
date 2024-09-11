@@ -3,7 +3,7 @@ author: John Yuan
 email: John.YCQ@outlook.com
 github: https://github.com/john-yuan
 lang: zh-CN
-avatar: resources/images/avatar.jpg
+avatar: resources/images/avatar.jpeg
 permalink: /blog/:title.html
 excerpt_separator: <!--more-->
 markdown: kramdown
